@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight History | Nutritional Food Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="logo">♡</div>
+        <div class="side-title">Nutritional Food Recommendation System</div>
+        <a href="/dashboard" class="nav-item">⌂ <span>Dashboard</span></a>
+        <a href="/weight" class="nav-item">⚖ <span>Update Weight</span></a>
+        <a href="/weight-history" class="nav-item active">▣ <span>Weight History</span></a>
+        <a href="/food-history" class="nav-item">🍽 <span>Food History</span></a>
+        <a href="/logout" class="logout-link">↪ <span>Logout</span></a><div class="side-bottom">Healthy Food<br>Healthy Life ♡</div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <div class="brand">Nutritional Food Recommendation System</div>
+                <div class="tagline">Personalized Nutrition • Better Choices • Healthier You</div>
+            </div>
+        </header>
+
+        <section class="page-heading">
+            <div>
+                <span class="eyebrow">STEP 3</span>
+                <h1>Weight History</h1>
+                <p>Every saved weight measurement is stored for the user and used for trend analysis.</p>
+            </div>
+            <a class="primary-btn inline-btn" href="/weight">+ Add Weight</a>
+        </section>
+
+        <section class="section-card">
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Weight</th>
+                            <th>Change</th>
+                            <th>BMI</th>
+                            <th>Goal</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in records %}
+                        {% set previous = records[loop.index0 + 1] if loop.index0 + 1 < records|length else none %}
+                        <tr>
+                            <td>{{ row["measured_at"] }}</td>
+                            <td><b>{{ "%.1f"|format(row["weight"]) }} kg</b></td>
+                            <td>
+                                {% if previous %}
+                                    {% set change = row["weight"] - previous["weight"] %}
+                                    <span class="{{ 'change-up' if change > 0 else 'change-down' if change < 0 else 'change-same' }}">
+                                        {{ "+" if change > 0 else "" }}{{ "%.1f"|format(change) }} kg
+                                    </span>
+                                {% else %}—{% endif %}
+                            </td>
+                            <td>{{ row["bmi"] }} <small>{{ row["bmi_status"] }}</small></td>
+                            <td>{{ row["health_goal"] }}</td>
+                            <td><span class="source-pill">{{ row["source"] }}</span></td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="6" class="no-data">No weight history available.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

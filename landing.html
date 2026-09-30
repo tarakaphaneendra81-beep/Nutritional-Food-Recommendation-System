@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutritional Food Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<div class="landing-page">
+    <nav class="landing-nav">
+        <a href="/" class="landing-brand">
+            <span class="landing-brand-mark">♡</span>
+            <span class="landing-brand-text">Nutritional Food Recommendation System</span>
+        </a>
+        <div class="landing-nav-links">
+            <a href="/" class="active">Home</a>
+            <a href="/login">Login</a>
+            <a href="/register" class="register-link">Register</a>
+        </div>
+    </nav>
+
+    <main class="landing-content">
+        <div class="landing-copy">
+            <span class="landing-kicker">PERSONALIZED NUTRITION</span>
+            <h1>Welcome to the <span>Nutritional Food Recommendation System</span></h1>
+            <p>
+                Track your weight, understand your BMI and receive personalized food
+                recommendations based on your health goal and food preference.
+            </p>
+
+            <div class="landing-actions">
+                <a href="/register" class="landing-primary">Create Your Account →</a>
+                <a href="/login" class="landing-secondary">Already a member? Login</a>
+            </div>
+
+            <div class="landing-features">
+                <div class="landing-feature">
+                    <strong>⚖ Weight Tracking</strong>
+                    <span>Enter your weight manually and keep a history of your progress.</span>
+                </div>
+                <div class="landing-feature">
+                    <strong>◉ BMI & Health Goal</strong>
+                    <span>Get a BMI status and a goal such as weight gain, maintenance or loss.</span>
+                </div>
+                <div class="landing-feature">
+                    <strong>🍽 Food Recommendations</strong>
+                    <span>Choose Veg or Non-Veg and receive rotating food options for each meal.</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="landing-footer">Nutritional Food Recommendation System • Personalized Nutrition</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Recommendation History |Nutritional Food Recommendation System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+<div class="logo">♡</div><div class="side-title"> Nutritional Food Recommendation System</div>
+<a href="/dashboard" class="nav-item">⌂ <span>Dashboard</span></a>
+<a href="/weight" class="nav-item">⚖ <span>Update Weight</span></a>
+<a href="/weight-history" class="nav-item">▣ <span>Weight History</span></a>
+<a href="/food-history" class="nav-item active">🍽 <span>Food History</span></a>
+<a href="/logout" class="logout-link">↪ <span>Logout</span></a>
+<div class="side-bottom">Healthy Food<br>Healthy Life ♡</div>
+</aside>
+<main class="main">
+<header class="topbar">
+<div><div class="brand">Nutritional Food Recommendation System</div>
+<div class="tagline">Personalized Nutrition • Better Choices • Healthier You</div></div>
+</header>
+<section class="page-heading">
+<div><span class="eyebrow">HISTORY</span><h1>Food Recommendation History</h1>
+<p>Every recommendation plan is saved when you manually record a new weight.</p></div>
+<a class="primary-btn inline-btn" href="/weight">+ Add Weight</a>
+</section>
+
+<section class="section-card">
+<div class="table-scroll">
+<table>
+<thead><tr><th>Date & Time</th><th>Meal</th><th>Food</th><th>Calories</th><th>Protein</th><th>Carbs</th><th>Fats</th></tr></thead>
+<tbody>
+{% for row in records %}
+<tr>
+<td>{{ row["recommended_at"] }}</td>
+<td><span class="source-pill">{{ row["meal_type"] }}</span></td>
+<td><b>{{ row["food_name"] }}</b></td>
+<td>{{ row["calories"] }} kcal</td>
+<td>{{ row["protein"] }} g</td>
+<td>{{ row["carbs"] }} g</td>
+<td>{{ row["fats"] }} g</td>
+</tr>
+{% else %}
+<tr><td colspan="7" class="no-data">No food recommendation history yet. Add your weight to generate your first plan.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+</main></div>
+</body></html>

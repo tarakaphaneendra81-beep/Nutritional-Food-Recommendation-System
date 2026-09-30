@@ -1,0 +1,69 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | Nutritional Food Recommendation System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+
+<body class="auth-body">
+
+    <!-- Top Right Navigation -->
+    <div class="auth-top-nav">
+        <a href="/">Home</a>
+        <a href="/login" class="active">Login</a>
+        <a href="/register">Register</a>
+    </div>
+
+    <!-- Login Card -->
+    <div class="auth-card">
+
+        <div class="auth-logo">♡</div>
+
+        <h1>Nutritional Food Recommendation System</h1>
+
+        <p>Login to your personal dashboard.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for c, m in messages %}
+                <div class="auth-message {{ c }}">{{ m }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input
+                name="username"
+                type="text"
+                placeholder="Enter your username"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button class="primary-btn auth-btn">
+                Login
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+            Don't have an account?
+            <a href="/register">Register</a>
+        </p>
+
+    </div>
+
+</body>
+</html>

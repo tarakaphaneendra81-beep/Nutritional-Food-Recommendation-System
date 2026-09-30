@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Nutritional Food Recommendation System Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="logo">♡</div>
+        <div class="side-title">Nutritional Food Recommendation System</div>
+        <a href="/dashboard" class="nav-item active">⌂ <span>Dashboard</span></a>
+        <a href="/weight" class="nav-item">⚖ <span>Update Weight</span></a>
+        <a href="/weight-history" class="nav-item">▣ <span>Weight History</span></a>
+        <a href="/food-history" class="nav-item">🍽 <span>Food History</span></a>
+        <a href="/logout" class="logout-link">↪ <span>Logout</span></a><div class="side-bottom">Healthy Food<br>Healthy Life ♡</div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <div class="brand">Nutritional Food Recommendation System</div>
+                <div class="tagline">Personalized Nutrition • Better Choices • Healthier You</div>
+            </div>
+            <div class="welcome">Welcome, <b>{{ user["name"] if user else "User" }}</b> 👋</div>
+        </header>
+
+        <section class="page-heading compact">
+            <div>
+                <h1>Hello, {{ user["name"] if user else "User" }} 👋</h1>
+                <p>Here is your health overview and today's food recommendations.</p>
+            </div>
+            <a class="outline-btn" href="/weight">⚖ Update Weight</a>
+        </section>
+
+        {% if latest %}
+        <section class="health-cards">
+            <div class="summary-card blue">
+                <span>⚖ Weight</span>
+                <strong>{{ "%.1f"|format(latest["weight"]) }} kg</strong>
+                <small>From {{ latest["source"] }}</small>
+            </div>
+            <div class="summary-card pink">
+                <span>▥ BMI</span>
+                <strong>{{ latest["bmi"] }}</strong>
+                <small>{{ latest["bmi_status"] }}</small>
+            </div>
+            <div class="summary-card green">
+                <span>◎ Health Goal</span>
+                <strong>{{ latest["health_goal"] }}</strong>
+                <small>Based on current BMI</small>
+            </div>
+            <div class="summary-card orange">
+                <span>♨ Daily Calories</span>
+                <strong>{{ latest["calories"] }} kcal</strong>
+                <small>Approximate target</small>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <div>
+                    <h2>Food Recommendations</h2>
+                    <p>Your latest saved plan. New weight entries rotate meals to reduce repetition.</p>
+                </div>
+            </div>
+                <a class="outline-btn" href="/food-history">View Food History </a>
+            <div class="food-grid">
+                {% for food in foods %}
+                <article class="food-card">
+                    <div class="meal-label">{{ food["meal"] }}</div>
+                    <div class="food-art">
+                        {% if food["meal"] == "Breakfast" %}🥣
+                        {% elif food["meal"] == "Lunch" %}🍚
+                        {% elif food["meal"] == "Snacks" %}🥜
+                        {% else %}🍲{% endif %}
+                    </div>
+                    <h3>{{ food["food_name"] }}</h3>
+                    <div class="nutrition-grid">
+                        <span>Calories <b>{{ food["calories"] }} kcal</b></span>
+                        <span>Protein <b>{{ food["protein"] }} g</b></span>
+                        <span>Carbs <b>{{ food["carbs"] }} g</b></span>
+                        <span>Fats <b>{{ food["fats"] }} g</b></span>
+                    </div>
+                    <div class="healthy">✓ Recommended</div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="two-column">
+            <div class="section-card">
+                <div class="section-head">
+                    <h2>Weight Trend</h2>
+                    <a href="/weight-history">View history </a>
+                </div>
+                <div class="chart" id="weightChart">
+                    {% set values = history|map(attribute='weight')|list %}
+                    {% set maxv = (values|max) if values else 1 %}
+                    {% set minv = (values|min) if values else 0 %}
+                    {% set span = maxv - minv %}
+                    {% if span == 0 %}{% set span = 1 %}{% endif %}
+                    {% for row in history|reverse %}
+                    <div class="bar-wrap">
+                        <div class="bar" style="height: {{20 + ((row['weight'] - minv) / span * 100)}}"title="{{ row['weight'] }} kg"></div>
+                        <small>{{ row['measured_at'][5:10] }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="section-card quick">
+                <h2>Quick Summary</h2>
+                <div class="quick-row"><span>Current Weight</span><b>{{ "%.1f"|format(latest["weight"]) }} kg</b></div>
+                <div class="quick-row"><span>BMI</span><b>{{ latest["bmi"] }}</b></div>
+                <div class="quick-row"><span>Goal</span><b>{{ latest["health_goal"] }}</b></div>
+                <div class="quick-row"><span>Calories</span><b>{{ latest["calories"] }} kcal</b></div>
+                <div class="tip">🌿 Small healthy choices every day make a big difference.</div>
+            </div>
+        </section>
+        {% else %}
+        <div class="empty-state">
+            <h2>No weight recorded yet</h2>
+            <p>Enter your weight manually to generate a personalized dashboard and food plan.</p>
+            <a class="primary-btn inline-btn" href="/weight">Add Weight</a>
+        </div>
+        {% endif %}
+    </main>
+</div>
+</body>
+</html>
